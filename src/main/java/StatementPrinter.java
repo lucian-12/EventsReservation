@@ -12,25 +12,7 @@ public class StatementPrinter {
 
         for (Reservation reservation : invoice.getReservations()) {
             Event event = reservation.getEvent();
-            int thisAmount = 0;
-
-            switch (event.getType()) {
-                case "conference":
-                    thisAmount = 40000;
-                    if (reservation.getNbSeats() > 3) {
-                        thisAmount += 1000 * (reservation.getNbSeats() - 3);
-                    }
-                    break;
-                case "workshop":
-                    thisAmount = 30000;
-                    if (reservation.getNbSeats() > 2) {
-                        thisAmount += 10000 + 500 * (reservation.getNbSeats() - 2);
-                    }
-                    thisAmount += 300 * reservation.getNbSeats();
-                    break;
-                default:
-                    throw new Error("unknown type: ${event.type}");
-            }
+            int thisAmount = amountFor(reservation, event);
 
             // add volume credits
             volumeCredits += Math.max(reservation.getNbSeats() - 2, 0);
@@ -44,6 +26,29 @@ public class StatementPrinter {
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
         return result.toString();
+    }
+
+    private int amountFor(Reservation reservation, Event event) {
+        int thisAmount = 0;
+
+        switch (event.getType()) {
+            case "conference":
+                thisAmount = 40000;
+                if (reservation.getNbSeats() > 3) {
+                    thisAmount += 1000 * (reservation.getNbSeats() - 3);
+                }
+                break;
+            case "workshop":
+                thisAmount = 30000;
+                if (reservation.getNbSeats() > 2) {
+                    thisAmount += 10000 + 500 * (reservation.getNbSeats() - 2);
+                }
+                thisAmount += 300 * reservation.getNbSeats();
+                break;
+            default:
+                throw new Error("unknown type: ${event.type}");
+        }
+        return thisAmount;
     }
 
 }

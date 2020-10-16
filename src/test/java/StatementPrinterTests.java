@@ -12,7 +12,7 @@ public class StatementPrinterTests {
         Invoice invoice = new Invoice("BigCo", List.of(
                 new Reservation("dev", 5, new Event("DevConference", "conference")),
                 new Reservation("web", 3, new Event("WebWorkshop", "workshop")),
-                new Reservation("devOps", 4, new Event("DevOps", "conference"))));
+                new Reservation("ml", 4, new Event("MachineLearning", "conference"))));
 
         StatementPrinter statementPrinter = new StatementPrinter();
         String result = statementPrinter.print(invoice);
