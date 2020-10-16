@@ -29,26 +29,26 @@ public class StatementPrinter {
     }
 
     private int amountFor(Reservation reservation, Event event) {
-        int thisAmount = 0;
+        int result = 0;
 
         switch (event.getType()) {
             case "conference":
-                thisAmount = 40000;
+                result = 40000;
                 if (reservation.getNbSeats() > 3) {
-                    thisAmount += 1000 * (reservation.getNbSeats() - 3);
+                    result += 1000 * (reservation.getNbSeats() - 3);
                 }
                 break;
             case "workshop":
-                thisAmount = 30000;
+                result = 30000;
                 if (reservation.getNbSeats() > 2) {
-                    thisAmount += 10000 + 500 * (reservation.getNbSeats() - 2);
+                    result += 10000 + 500 * (reservation.getNbSeats() - 2);
                 }
-                thisAmount += 300 * reservation.getNbSeats();
+                result += 300 * reservation.getNbSeats();
                 break;
             default:
                 throw new Error("unknown type: ${event.type}");
         }
-        return thisAmount;
+        return result;
     }
 
 }
