@@ -34,7 +34,7 @@ public class StatementPrinter {
 
             // add volume credits
             volumeCredits += Math.max(reservation.getNbSeats() - 2, 0);
-            // add extra credit for every ten comedy attendees
+            // add extra credit for every workshop attendee
             if ("workshop".equals(event.getType())) volumeCredits += Math.floor(reservation.getNbSeats());
 
             // print line for this order
