@@ -13,11 +13,7 @@ public class StatementPrinter {
         for (Reservation reservation : invoice.getReservations()) {
             int thisAmount = amountFor(reservation);
 
-            // add volume credits
-            volumeCredits += Math.max(reservation.getNbSeats() - 2, 0);
-            // add extra credit for every ten comedy attendees
-            if ("workshop".equals(reservation.getEvent().getType()))
-                volumeCredits += Math.floor(reservation.getNbSeats());
+            volumeCredits += volumeCreditsFor(reservation);
 
             // print line for this order
             result.append(String.format("  %s: %s (%s seats)\n", reservation.getEvent().getName(), frmt.format(thisAmount / 100), reservation.getNbSeats()));
@@ -28,8 +24,18 @@ public class StatementPrinter {
         return result.toString();
     }
 
-    private int amountFor(Reservation reservation) {
+    private int volumeCreditsFor(Reservation reservation) {
         int result = 0;
+        // add volume credits
+        result += Math.max(reservation.getNbSeats() - 2, 0);
+        // add extra credit for every workshop attendee
+        if ("workshop".equals(reservation.getEvent().getType()))
+            result += Math.floor(reservation.getNbSeats());
+        return result;
+    }
+
+    private int amountFor(Reservation reservation) {
+        int result;
 
         switch (reservation.getEvent().getType()) {
             case "conference":
