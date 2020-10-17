@@ -1,7 +1,7 @@
 package data;
 
-public class ConferenceReservation extends Reservation {
-    public ConferenceReservation(String reservationID, int nbSeats, Event event) {
+public class ReservationConference extends Reservation {
+    public ReservationConference(String reservationID, int nbSeats, Event event) {
         super(reservationID, nbSeats, event);
     }
 
