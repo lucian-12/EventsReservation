@@ -6,34 +6,35 @@ public class StatementPrinter {
     public String print(Invoice invoice) {
         StatementData statementData = new StatementData();
         statementData.setCustomer(invoice.getCustomer());
+        statementData.setReservations(invoice.getReservations());
 
-        return renderPlainText(invoice, statementData);
+        return renderPlainText(statementData);
     }
 
-    private String renderPlainText(Invoice invoice, StatementData statementData) {
+    private String renderPlainText(StatementData statementData) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", statementData.getCustomer()));
 
-        for (Reservation reservation : invoice.getReservations()) {
+        for (Reservation reservation : statementData.getReservations()) {
             // print line for this order
             result.append(String.format("  %s: %s (%s seats)\n", reservation.getEvent().getName(), usd(amountFor(reservation)), reservation.getNbSeats()));
         }
 
-        result.append(String.format("Amount owed is %s\n", usd(totalAmount(invoice))));
-        result.append(String.format("You earned %s credits\n", totalVolumeCredits(invoice)));
+        result.append(String.format("Amount owed is %s\n", usd(totalAmount(statementData))));
+        result.append(String.format("You earned %s credits\n", totalVolumeCredits(statementData)));
         return result.toString();
     }
 
-    private int totalAmount(Invoice invoice) {
+    private int totalAmount(StatementData statementData) {
         int result = 0;
-        for (Reservation reservation : invoice.getReservations()) {
+        for (Reservation reservation : statementData.getReservations()) {
             result += amountFor(reservation);
         }
         return result;
     }
 
-    private int totalVolumeCredits(Invoice invoice) {
+    private int totalVolumeCredits(StatementData statementData) {
         int result = 0;
-        for (Reservation reservation : invoice.getReservations()) {
+        for (Reservation reservation : statementData.getReservations()) {
             result += volumeCreditsFor(reservation);
         }
         return result;
