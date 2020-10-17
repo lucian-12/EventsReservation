@@ -27,4 +27,13 @@ public class Invoice {
         this.reservations = reservations;
         return this;
     }
+
+    StatementData createStatementData() {
+        StatementData result = new StatementData();
+        result.setCustomer(getCustomer());
+        result.setReservations(getReservations());
+        result.setTotalAmount(result.calculateTotalAmount());
+        result.setTotalVolumeCredits(result.calculateTotalVolumeCredits());
+        return result;
+    }
 }
