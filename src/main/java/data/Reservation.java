@@ -39,15 +39,7 @@ public abstract class Reservation {
         return this;
     }
 
-     public abstract int calculateAmount();
+    public abstract int calculateAmount();
 
-    int calculateVolumeCredits() {
-        int result = 0;
-        // add volume credits
-        result += Math.max(getNbSeats() - 2, 0);
-        // add extra credit for every workshop attendee
-        if ("workshop".equals(getEvent().getType()))
-            result += Math.floor(getNbSeats());
-        return result;
-    }
+    abstract int calculateVolumeCredits();
 }

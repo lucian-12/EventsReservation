@@ -14,4 +14,12 @@ public class WorkshopReservation extends Reservation {
         result += 300 * getNbSeats();
         return result;
     }
+
+    @Override
+    int calculateVolumeCredits() {
+        int result = 0;
+        result += Math.max(getNbSeats() - 2, 0);
+        result += Math.floor(getNbSeats());
+        return result;
+    }
 }

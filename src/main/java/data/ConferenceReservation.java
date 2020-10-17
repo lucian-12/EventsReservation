@@ -13,4 +13,11 @@ public class ConferenceReservation extends Reservation {
         }
         return result;
     }
+
+    @Override
+    int calculateVolumeCredits() {
+        int result = 0;
+        result += Math.max(getNbSeats() - 2, 0);
+        return result;
+    }
 }
