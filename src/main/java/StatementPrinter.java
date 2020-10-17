@@ -5,21 +5,27 @@ public class StatementPrinter {
 
     public String print(Invoice invoice) {
         int totalAmount = 0;
-        int volumeCredits = 0;
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.getCustomer()));
 
         for (Reservation reservation : invoice.getReservations()) {
             int thisAmount = amountFor(reservation);
 
-            volumeCredits += volumeCreditsFor(reservation);
-
             // print line for this order
             result.append(String.format("  %s: %s (%s seats)\n", reservation.getEvent().getName(), usd(thisAmount), reservation.getNbSeats()));
             totalAmount += thisAmount;
         }
+
         result.append(String.format("Amount owed is %s\n", usd(totalAmount)));
-        result.append(String.format("You earned %s credits\n", volumeCredits));
+        result.append(String.format("You earned %s credits\n", totalVolumeCredits(invoice)));
         return result.toString();
+    }
+
+    private int totalVolumeCredits(Invoice invoice) {
+        int volumeCredits = 0;
+        for (Reservation reservation : invoice.getReservations()) {
+            volumeCredits += volumeCreditsFor(reservation);
+        }
+        return volumeCredits;
     }
 
     private String usd(int aNumber) {
