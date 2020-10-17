@@ -4,7 +4,14 @@ import java.util.Locale;
 public class StatementPrinter {
 
     public String print(Invoice invoice) {
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.getCustomer()));
+        StatementData statementData = new StatementData();
+        statementData.setCustomer(invoice.getCustomer());
+
+        return renderPlainText(invoice, statementData);
+    }
+
+    private String renderPlainText(Invoice invoice, StatementData statementData) {
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", statementData.getCustomer()));
 
         for (Reservation reservation : invoice.getReservations()) {
             // print line for this order
