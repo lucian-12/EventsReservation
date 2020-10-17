@@ -4,28 +4,32 @@ import java.util.Locale;
 public class StatementPrinter {
 
     public String print(Invoice invoice) {
-        int totalAmount = 0;
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.getCustomer()));
 
         for (Reservation reservation : invoice.getReservations()) {
-            int thisAmount = amountFor(reservation);
-
             // print line for this order
-            result.append(String.format("  %s: %s (%s seats)\n", reservation.getEvent().getName(), usd(thisAmount), reservation.getNbSeats()));
-            totalAmount += thisAmount;
+            result.append(String.format("  %s: %s (%s seats)\n", reservation.getEvent().getName(), usd(amountFor(reservation)), reservation.getNbSeats()));
         }
 
-        result.append(String.format("Amount owed is %s\n", usd(totalAmount)));
+        result.append(String.format("Amount owed is %s\n", usd(totalAmount(invoice))));
         result.append(String.format("You earned %s credits\n", totalVolumeCredits(invoice)));
         return result.toString();
     }
 
-    private int totalVolumeCredits(Invoice invoice) {
-        int volumeCredits = 0;
+    private int totalAmount(Invoice invoice) {
+        int result = 0;
         for (Reservation reservation : invoice.getReservations()) {
-            volumeCredits += volumeCreditsFor(reservation);
+            result += amountFor(reservation);
         }
-        return volumeCredits;
+        return result;
+    }
+
+    private int totalVolumeCredits(Invoice invoice) {
+        int result = 0;
+        for (Reservation reservation : invoice.getReservations()) {
+            result += volumeCreditsFor(reservation);
+        }
+        return result;
     }
 
     private String usd(int aNumber) {
