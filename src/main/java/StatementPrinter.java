@@ -11,16 +11,16 @@ public class StatementPrinter {
         NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (Reservation reservation : invoice.getReservations()) {
-            Event event = reservation.getEvent();
-            int thisAmount = amountFor(reservation, event);
+            int thisAmount = amountFor(reservation);
 
             // add volume credits
             volumeCredits += Math.max(reservation.getNbSeats() - 2, 0);
             // add extra credit for every ten comedy attendees
-            if ("workshop".equals(event.getType())) volumeCredits += Math.floor(reservation.getNbSeats());
+            if ("workshop".equals(reservation.getEvent().getType()))
+                volumeCredits += Math.floor(reservation.getNbSeats());
 
             // print line for this order
-            result.append(String.format("  %s: %s (%s seats)\n", event.getName(), frmt.format(thisAmount / 100), reservation.getNbSeats()));
+            result.append(String.format("  %s: %s (%s seats)\n", reservation.getEvent().getName(), frmt.format(thisAmount / 100), reservation.getNbSeats()));
             totalAmount += thisAmount;
         }
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
@@ -28,10 +28,10 @@ public class StatementPrinter {
         return result.toString();
     }
 
-    private int amountFor(Reservation reservation, Event event) {
+    private int amountFor(Reservation reservation) {
         int result = 0;
 
-        switch (event.getType()) {
+        switch (reservation.getEvent().getType()) {
             case "conference":
                 result = 40000;
                 if (reservation.getNbSeats() > 3) {
