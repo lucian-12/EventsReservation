@@ -1,3 +1,9 @@
+package view;
+
+import data.Invoice;
+import data.Reservation;
+import data.StatementData;
+
 import java.text.NumberFormat;
 import java.util.Locale;
 

@@ -1,3 +1,5 @@
+package data;
+
 import java.util.List;
 
 public class Invoice {
@@ -28,7 +30,7 @@ public class Invoice {
         return this;
     }
 
-    StatementData createStatementData() {
+    public StatementData createStatementData() {
         StatementData result = new StatementData();
         result.setCustomer(getCustomer());
         result.setReservations(getReservations());
