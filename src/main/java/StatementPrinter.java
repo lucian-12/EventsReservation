@@ -6,7 +6,8 @@ public class StatementPrinter {
     public String print(Invoice invoice) {
         int totalAmount = 0;
         int volumeCredits = 0;
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.getCustomer()));
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n",
+                                                               invoice.getCustomer()));
 
         NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
@@ -40,7 +41,10 @@ public class StatementPrinter {
             }
 
             // print line for this order
-            result.append(String.format("  %s: %s (%s seats)\n", event.getName(), frmt.format(thisAmount / 100), reservation.getNbSeats()));
+            result.append(String.format("  %s: %s (%s seats)\n",
+                                        event.getName(),
+                                        frmt.format(thisAmount / 100),
+                                        reservation.getNbSeats()));
             totalAmount += thisAmount;
         }
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
