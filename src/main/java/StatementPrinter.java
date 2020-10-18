@@ -6,24 +6,33 @@ public class StatementPrinter {
     public String print(Invoice invoice) {
         int totalAmount = 0;
         int volumeCredits = 0;
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.getCustomer()));
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n",
+                invoice.getCustomer()));
 
         NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (Reservation reservation : invoice.getReservations()) {
 
-            // add volume credits
-            volumeCredits += Math.max(reservation.getNbSeats() - 2, 0);
-            // add extra credit for every workshop attendee
-            if ("workshop".equals(reservation.getEvent().getType())) volumeCredits += Math.floor(reservation.getNbSeats());
+            volumeCredits += calculateVolumeCredits(reservation);
 
             // print line for this order
-            result.append(String.format("  %s: %s (%s seats)\n", reservation.getEvent().getName(), frmt.format(amountFor(reservation) / 100), reservation.getNbSeats()));
+            result.append(String.format("  %s: %s (%s seats)\n",
+                    reservation.getEvent().getName(),
+                    frmt.format(amountFor(reservation) / 100),
+                    reservation.getNbSeats()));
             totalAmount += amountFor(reservation);
         }
         result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
         return result.toString();
+    }
+
+    private int calculateVolumeCredits(Reservation reservation) {
+        int result = Math.max(reservation.getNbSeats() - 2, 0);
+        if ("workshop".equals(reservation.getEvent().getType())) {
+            result += Math.floor(reservation.getNbSeats());
+        }
+        return result;
     }
 
     private int amountFor(Reservation reservation) {
