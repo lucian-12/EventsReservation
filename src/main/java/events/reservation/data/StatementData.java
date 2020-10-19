@@ -1,8 +1,5 @@
 package events.reservation.data;
 
-import events.reservation.Invoice;
-import events.reservation.Reservation;
-
 import java.util.List;
 
 public class StatementData {
@@ -31,7 +28,7 @@ public class StatementData {
         this.calculateTotalAmount = calculateTotalAmount;
     }
 
-    public int getCalculateTotalAmount() {
+    public int getTotalAmount() {
         return calculateTotalAmount;
     }
 
@@ -39,7 +36,7 @@ public class StatementData {
         this.calculateTotalVolumeCredits = calculateTotalVolumeCredits;
     }
 
-    public int getCalculateTotalVolumeCredits() {
+    public int getTotalVolumeCredits() {
         return calculateTotalVolumeCredits;
     }
 

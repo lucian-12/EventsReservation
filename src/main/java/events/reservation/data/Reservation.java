@@ -1,4 +1,4 @@
-package events.reservation;
+package events.reservation.data;
 
 public class Reservation {
 
