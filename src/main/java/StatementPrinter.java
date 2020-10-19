@@ -4,7 +4,6 @@ import java.util.Locale;
 public class StatementPrinter {
 
     public String print(Invoice invoice) {
-        int totalAmount = 0;
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n",
                 invoice.getCustomer()));
 
@@ -15,12 +14,15 @@ public class StatementPrinter {
                     reservation.getEvent().getName(),
                     usd(calculateAmount(reservation)),
                     reservation.getNbSeats()));
-            totalAmount += calculateAmount(reservation);
         }
 
-        result.append(String.format("Amount owed is %s\n", usd(totalAmount)));
+        result.append(String.format("Amount owed is %s\n", usd(calculateTotalAmount(invoice))));
         result.append(String.format("You earned %s credits\n", calculateVolumeCredits(invoice)));
         return result.toString();
+    }
+
+    private int calculateTotalAmount(Invoice invoice) {
+        return invoice.getReservations().stream().mapToInt(this::calculateAmount).sum();
     }
 
     private int calculateVolumeCredits(Invoice invoice) {
