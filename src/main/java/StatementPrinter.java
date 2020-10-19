@@ -5,13 +5,10 @@ public class StatementPrinter {
 
     public String print(Invoice invoice) {
         int totalAmount = 0;
-        int volumeCredits = 0;
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n",
                 invoice.getCustomer()));
 
         for (Reservation reservation : invoice.getReservations()) {
-
-            volumeCredits += calculateVolumeCredits(reservation);
 
             // print line for this order
             result.append(String.format("  %s: %s (%s seats)\n",
@@ -20,9 +17,14 @@ public class StatementPrinter {
                     reservation.getNbSeats()));
             totalAmount += calculateAmount(reservation);
         }
+
         result.append(String.format("Amount owed is %s\n", usd(totalAmount)));
-        result.append(String.format("You earned %s credits\n", volumeCredits));
+        result.append(String.format("You earned %s credits\n", calculateVolumeCredits(invoice)));
         return result.toString();
+    }
+
+    private int calculateVolumeCredits(Invoice invoice) {
+        return invoice.getReservations().stream().mapToInt(this::calculateVolumeCredits).sum();
     }
 
     private String usd(int i) {
