@@ -1,6 +1,6 @@
 package events.reservation.data;
 
-public class Reservation {
+public abstract class Reservation {
 
     private String reservationID;
     private int nbSeats;
@@ -39,28 +39,7 @@ public class Reservation {
         return this;
     }
 
-    public int calculateAmount() {
-        int result;
-
-        switch (getEvent().getType()) {
-            case "conference":
-                result = 40000;
-                if (getNbSeats() > 3) {
-                    result += 1000 * (getNbSeats() - 3);
-                }
-                break;
-            case "workshop":
-                result = 30000;
-                if (getNbSeats() > 2) {
-                    result += 10000 + 500 * (getNbSeats() - 2);
-                }
-                result += 300 * getNbSeats();
-                break;
-            default:
-                throw new Error("unknown type: ${event.type}");
-        }
-        return result;
-    }
+    public abstract int calculateAmount();
 
     public int calculateTotalVolumeCredits() {
         int result = Math.max(getNbSeats() - 2, 0);
