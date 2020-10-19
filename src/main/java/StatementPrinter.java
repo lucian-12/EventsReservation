@@ -9,8 +9,6 @@ public class StatementPrinter {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n",
                 invoice.getCustomer()));
 
-        NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
-
         for (Reservation reservation : invoice.getReservations()) {
 
             volumeCredits += calculateVolumeCredits(reservation);
@@ -18,13 +16,18 @@ public class StatementPrinter {
             // print line for this order
             result.append(String.format("  %s: %s (%s seats)\n",
                     reservation.getEvent().getName(),
-                    frmt.format(amountFor(reservation) / 100),
+                    usd(calculateAmount(reservation)),
                     reservation.getNbSeats()));
-            totalAmount += amountFor(reservation);
+            totalAmount += calculateAmount(reservation);
         }
-        result.append(String.format("Amount owed is %s\n", frmt.format(totalAmount / 100)));
+        result.append(String.format("Amount owed is %s\n", usd(totalAmount)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
         return result.toString();
+    }
+
+    private String usd(int i) {
+        NumberFormat frmt = NumberFormat.getCurrencyInstance(Locale.US);
+        return frmt.format(i / 100);
     }
 
     private int calculateVolumeCredits(Reservation reservation) {
@@ -35,7 +38,7 @@ public class StatementPrinter {
         return result;
     }
 
-    private int amountFor(Reservation reservation) {
+    private int calculateAmount(Reservation reservation) {
         int result;
 
         switch (reservation.getEvent().getType()) {
