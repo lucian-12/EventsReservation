@@ -1,3 +1,5 @@
+package events.reservation;
+
 public class Event {
 
     private String name;

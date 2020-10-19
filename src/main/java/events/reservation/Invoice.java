@@ -1,3 +1,7 @@
+package events.reservation;
+
+import events.reservation.data.StatementData;
+
 import java.util.List;
 
 public class Invoice {
@@ -26,5 +30,14 @@ public class Invoice {
     public Invoice setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
         return this;
+    }
+
+    StatementData createStatementData() {
+        StatementData statementData = new StatementData();
+        statementData.setCustomer(getCustomer());
+        statementData.setReservations(getReservations());
+        statementData.setTotalAmount(statementData.calculateTotalAmount());
+        statementData.setTotalVolumeCredits(statementData.calculateTotalVolumeCredits());
+        return statementData;
     }
 }
