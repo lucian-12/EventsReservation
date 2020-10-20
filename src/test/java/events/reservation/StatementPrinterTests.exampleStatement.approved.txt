@@ -3,4 +3,4 @@ Statement for BigCo
   WebWorkshop: $414.00 (3 seats)
   MachineLearning: $410.00 (4 seats)
 Amount owed is $1,244.00
-You earned 9 credits
+You earned 7 credits

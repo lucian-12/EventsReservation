@@ -18,7 +18,7 @@ public class ReservationWorkshop extends Reservation {
     @Override
     public int calculateTotalVolumeCredits() {
         int result = Math.max(getNbSeats() - 2, 0);
-        result += Math.floor(getNbSeats());
+        result += Math.floor(getNbSeats()) / 3;
         return result;
     }
 
