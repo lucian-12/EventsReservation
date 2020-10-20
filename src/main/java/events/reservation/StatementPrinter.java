@@ -43,7 +43,7 @@ public class StatementPrinter {
             volumeCredits += Math.max(reservation.getNbSeats() - 2, 0);
             // add extra credit for every workshop attendee
             if ("workshop".equals(event.getType())) {
-                volumeCredits += Math.floor(reservation.getNbSeats());
+                volumeCredits += Math.floor(reservation.getNbSeats()) / 3;
             }
 
             // print line for this order
