@@ -1,3 +1,8 @@
+package events.reservation;
+
+import events.reservation.Event;
+import events.reservation.Invoice;
+import events.reservation.Reservation;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
