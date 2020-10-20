@@ -15,4 +15,11 @@ public class ReservationWorkshop extends Reservation {
         return result;
     }
 
+    @Override
+    public int calculateTotalVolumeCredits() {
+        int result = Math.max(getNbSeats() - 2, 0);
+        result += Math.floor(getNbSeats());
+        return result;
+    }
+
 }

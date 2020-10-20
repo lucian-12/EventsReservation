@@ -13,4 +13,9 @@ public class ReservationConference extends Reservation {
         }
         return result;
     }
+
+    @Override
+    public int calculateTotalVolumeCredits() {
+        return Math.max(getNbSeats() - 2, 0);
+    }
 }

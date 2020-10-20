@@ -41,11 +41,5 @@ public abstract class Reservation {
 
     public abstract int calculateAmount();
 
-    public int calculateTotalVolumeCredits() {
-        int result = Math.max(getNbSeats() - 2, 0);
-        if ("workshop".equals(getEvent().getType())) {
-            result += Math.floor(getNbSeats());
-        }
-        return result;
-    }
+    public abstract int calculateTotalVolumeCredits();
 }
